@@ -14,5 +14,3 @@ function pow(x, y) {
 	}
 	return y >= 0 ? result : 1 / result;
 }
-
-console.log(pow());
