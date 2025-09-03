@@ -1,0 +1,596 @@
+db.createCollection("Users", {
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: ["email", "password", "role", "createdAt", "updatedAt"],
+			properties: {
+				email: {
+					bsonType: "string",
+					description: "Email користувача, обов'язкове поле",
+				},
+				password: {
+					bsonType: "string",
+					description: "Пароль, обов'язкове поле",
+				},
+				role: {
+					bsonType: "string",
+					enum: ["user", "admin"],
+					description: "Роль користувача, обов'язкове поле",
+				},
+				createdAt: {
+					bsonType: "date",
+					description: "Дата створення, обов'язкове поле",
+				},
+				updatedAt: {
+					bsonType: "date",
+					description: "Дата оновлення, обов'язкове поле",
+				},
+			},
+		},
+	},
+});
+
+db.Users.insertMany([
+	{
+		email: "ivan@example.com",
+		password: "A12356",
+		role: "user",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		email: "anna@example.com",
+		password: "B12345",
+		role: "user",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		email: "oleg@example.com",
+		password: "C123456",
+		role: "user",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		email: "katya@example.com",
+		password: "D123456",
+		role: "admin",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		email: "maria@example.com",
+		password: "E123456",
+		role: "user",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+]);
+
+db.createCollection("UserProfile", {
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: ["userId", "name", "lastName", "createdAt", "updatedAt"],
+			properties: {
+				userId: {
+					bsonType: "objectId",
+					description: "Посилання на Users id",
+				},
+				name: {
+					bsonType: "string",
+					description: "Ім'я, обов'язкове поле",
+				},
+				lastName: {
+					bsonType: "string",
+					description: "Прізвище, обов'язкове поле",
+				},
+				photoFilename: {
+					bsonType: "string",
+					description: "Назва файлу фотографії користувача",
+				},
+				dateBirth: { bsonType: "date", description: "Дата народження" },
+				country: { bsonType: "string", description: "Країна" },
+				createdAt: {
+					bsonType: "date",
+					description: "Дата створення, обов'язкове поле",
+				},
+				updatedAt: {
+					bsonType: "date",
+					description: "Дата оновлення, обов'язкове поле",
+				},
+			},
+		},
+	},
+});
+
+db.UserProfile.insertMany([
+	{
+		userId: db.Users.findOne({ email: "ivan@example.com" })._id,
+		name: "Ivaqwn",
+		lastName: "Petrenko",
+		photoFilename: "ivan.png",
+		dateBirth: new Date("1990-05-10"),
+		country: "Ukraine",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "anna@example.com" })._id,
+		name: "Anna",
+		lastName: "Koval",
+		photoFilename: "anna.png",
+		dateBirth: new Date("1995-03-12"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "oleg@example.com" })._id,
+		name: "Oleg",
+		lastName: "Shevchenko",
+		photoFilename: "oleg.png",
+		dateBirth: new Date("1988-07-20"),
+		country: "Poland",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "katya@example.com" })._id,
+		name: "Katya",
+		lastName: "Ivanenko",
+		photoFilename: "katya.png",
+		dateBirth: new Date("1992-01-15"),
+		country: "Ukraine",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "maria@example.com" })._id,
+		name: "Maria",
+		lastName: "Bondar",
+		photoFilename: "maria.png",
+		dateBirth: new Date("1993-09-05"),
+		country: "Germany",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+]);
+
+db.createCollection("CarBrands", {
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: ["title", "createdAt", "updatedAt"],
+			properties: {
+				title: {
+					bsonType: "string",
+					description: "Назва бренду, обов'язкове поле",
+				},
+				logoFilename: {
+					bsonType: "string",
+					description: "Назва файлу фото бренду",
+				},
+				createdAt: {
+					bsonType: "date",
+					description: "Дата створення, обов'язкове поле",
+				},
+				updatedAt: {
+					bsonType: "date",
+					description: "Дата оновлення, обов'язкове поле",
+				},
+			},
+		},
+	},
+});
+
+db.CarBrands.insertMany([
+	{
+		title: "Toyota",
+		logoFilename: "toyota.png",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		title: "BMW",
+		logoFilename: "bmw.png",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		title: "Mercedes",
+		logoFilename: "mercedes.png",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		title: "Audi",
+		logoFilename: "audi.png",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		title: "Tesla",
+		logoFilename: "tesla.png",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+]);
+
+db.createCollection("CarModels", {
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: ["brandId", "title", "createdAt", "updatedAt"],
+			properties: {
+				brandId: {
+					bsonType: "objectId",
+					description: "Посилання на CarBrands id",
+				},
+				title: {
+					bsonType: "string",
+					description: "Назва моделі, обов'язкове поле",
+				},
+				createdAt: {
+					bsonType: "date",
+					description: "Дата створення, обов'язкове поле",
+				},
+				updatedAt: {
+					bsonType: "date",
+					description: "Дата оновлення, обов'язкове поле",
+				},
+			},
+		},
+	},
+});
+
+db.CarModels.insertMany([
+	{
+		brandId: db.CarBrands.findOne({ title: "Toyota" })._id,
+		title: "Corolla",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		brandId: db.CarBrands.findOne({ title: "BMW" })._id,
+		title: "X5",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		brandId: db.CarBrands.findOne({ title: "Mercedes" })._id,
+		title: "C-Class",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		brandId: db.CarBrands.findOne({ title: "Audi" })._id,
+		title: "A4",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		brandId: db.CarBrands.findOne({ title: "Tesla" })._id,
+		title: "Model 3",
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+]);
+
+db.createCollection("Cars", {
+	validator: {
+		$jsonSchema: {
+			bsonType: "object",
+			required: [
+				"userId",
+				"brandId",
+				"modelId",
+				"mileage",
+				"initialMileage",
+				"yearOfManufacture",
+				"createdAt",
+				"updatedAt",
+			],
+			properties: {
+				userId: {
+					bsonType: "objectId",
+					description: "Посилання на користувача Users id",
+				},
+				brandId: {
+					bsonType: "objectId",
+					description: "Посилання на бренд автомобіля CarBrands id",
+				},
+				modelId: {
+					bsonType: "objectId",
+					description: "Посилання на модель автомобіля CarModels id)",
+				},
+				mileage: {
+					bsonType: "number",
+					description: "Поточний пробіг автомобіля, обов'язкове поле",
+				},
+				initialMileage: {
+					bsonType: "number",
+					description:
+						"Пробіг автомобіля на момент додавання, обов'язкове поле",
+				},
+				yearOfManufacture: {
+					bsonType: "date",
+					description: "Дата випуску автомобіля, обов'язкове поле",
+				},
+				createdAt: {
+					bsonType: "date",
+					description: "Дата створення запису в БД, обов'язкове поле",
+				},
+				updatedAt: {
+					bsonType: "date",
+					description: "Дата оновлення запису в БД, обов'язкове поле",
+				},
+			},
+		},
+	},
+});
+
+db.Cars.insertMany([
+	{
+		userId: db.Users.findOne({ email: "ivan@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Toyota" })._id,
+		modelId: db.CarModels.findOne({ title: "Corolla" })._id,
+		mileage: 90,
+		initialMileage: 10,
+		yearOfManufacture: new Date("2015-04-01"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "anna@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "BMW" })._id,
+		modelId: db.CarModels.findOne({ title: "X5" })._id,
+		mileage: 100,
+		initialMileage: 50,
+		yearOfManufacture: new Date("2018-06-10"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "oleg@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Mercedes" })._id,
+		modelId: db.CarModels.findOne({ title: "C-Class" })._id,
+		mileage: 120,
+		initialMileage: 15,
+		yearOfManufacture: new Date("2017-09-12"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "katya@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Audi" })._id,
+		modelId: db.CarModels.findOne({ title: "A4" })._id,
+		mileage: 400,
+		initialMileage: 20,
+		yearOfManufacture: new Date("2019-03-22"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "maria@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Tesla" })._id,
+		modelId: db.CarModels.findOne({ title: "Model 3" })._id,
+		mileage: 110,
+		initialMileage: 15,
+		yearOfManufacture: new Date("2021-11-01"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "ivan@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "BMW" })._id,
+		modelId: db.CarModels.findOne({ title: "X5" })._id,
+		mileage: 500,
+		initialMileage: 200,
+		yearOfManufacture: new Date("2016-08-15"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "anna@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Audi" })._id,
+		modelId: db.CarModels.findOne({ title: "A4" })._id,
+		mileage: 100,
+		initialMileage: 10,
+		yearOfManufacture: new Date("2020-02-10"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "oleg@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Tesla" })._id,
+		modelId: db.CarModels.findOne({ title: "Model 3" })._id,
+		mileage: 15,
+		initialMileage: 0,
+		yearOfManufacture: new Date("2022-05-01"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "katya@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Mercedes" })._id,
+		modelId: db.CarModels.findOne({ title: "C-Class" })._id,
+		mileage: 70,
+		initialMileage: 10,
+		yearOfManufacture: new Date("2017-11-20"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+	{
+		userId: db.Users.findOne({ email: "maria@example.com" })._id,
+		brandId: db.CarBrands.findOne({ title: "Toyota" })._id,
+		modelId: db.CarModels.findOne({ title: "Corolla" })._id,
+		mileage: 90,
+		initialMileage: 5,
+		yearOfManufacture: new Date("2014-09-30"),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	},
+]);
+
+// Знайти користувачів у яких в імені є послідовність букв qw
+
+db.UserProfile.find({ name: { $regex: /qw/ } });
+
+// Знайти користувачів у яких country дорівнює Ukraine
+
+db.UserProfile.find({ country: "Ukraine" });
+
+//Знайти користувачів у яких в профайлі поле country не має значення
+
+db.UserProfile.find({ country: { $exists: false } });
+
+// Знайти користувачів у яких в профайлі поле name не починається з літери a,
+// обовязково використовувати $where
+
+db.UserProfile.find({
+	$where: function () {
+		return !this.name.toLowerCase().startsWith("a");
+	},
+});
+
+// Робота з $lookup
+
+db.UserProfile.aggregate([
+	{
+		$lookup: {
+			from: "Users",
+			localField: "userId",
+			foreignField: "_id",
+			as: "userInfo",
+		},
+	},
+]);
+
+db.UserProfile.aggregate([
+	{
+		$lookup: {
+			from: "Users",
+			localField: "userId",
+			foreignField: "_id",
+			as: "userInfo",
+		},
+	},
+	{ $unwind: "$userInfo" },
+	{
+		$project: {
+			_id: 0,
+			name: 1,
+			lastName: 1,
+			country: 1,
+			dateBirth: 1,
+			email: "$userInfo.email",
+		},
+	},
+]);
+
+// Напишіть запит який буде повертати інформацію по машинам та їх власників
+// у яких mileage буде більше або дорівнювати 100 и модель атомобіля ауді
+
+db.Cars.aggregate([
+	{
+		$lookup: {
+			from: "CarModels",
+			localField: "modelId",
+			foreignField: "_id",
+			as: "modelInfo",
+		},
+	},
+	{ $unwind: "$modelInfo" },
+
+	{
+		$lookup: {
+			from: "CarBrands",
+			localField: "brandId",
+			foreignField: "_id",
+			as: "brandInfo",
+		},
+	},
+	{ $unwind: "$brandInfo" },
+
+	{
+		$lookup: {
+			from: "Users",
+			localField: "userId",
+			foreignField: "_id",
+			as: "ownerInfo",
+		},
+	},
+	{ $unwind: "$ownerInfo" },
+
+	{
+		$match: {
+			mileage: { $gte: 100 },
+			"brandInfo.title": "Audi",
+		},
+	},
+
+	{
+		$project: {
+			_id: 0,
+			carId: "$_id",
+			model: "$modelInfo.title",
+			brand: "$brandInfo.title",
+			mileage: 1,
+			initialMileage: 1,
+			yearOfManufacture: 1,
+			ownerName: "$ownerInfo.email",
+			ownerRole: "$ownerInfo.role",
+		},
+	},
+]);
+
+// Знайти cars у яких бренд BMW або Audi
+
+db.Cars.find({
+	brandId: {
+		$in: [
+			db.CarBrands.findOne({ title: "BMW" })._id,
+			db.CarBrands.findOne({ title: "Audi" })._id,
+		],
+	},
+});
+
+db.Cars.aggregate([
+	{
+		$lookup: {
+			from: "CarBrands",
+			localField: "brandId",
+			foreignField: "_id",
+			as: "brandInfo",
+		},
+	},
+	{ $unwind: "$brandInfo" },
+
+	{
+		$lookup: {
+			from: "CarModels",
+			localField: "modelId",
+			foreignField: "_id",
+			as: "modelInfo",
+		},
+	},
+	{ $unwind: "$modelInfo" },
+
+	{
+		$match: {
+			"brandInfo.title": { $in: ["BMW", "Audi"] },
+		},
+	},
+
+	{
+		$project: {
+			_id: 0,
+			carId: "$_id",
+			brand: "$brandInfo.title",
+			model: "$modelInfo.title",
+			mileage: 1,
+			yearOfManufacture: 1,
+		},
+	},
+]);
